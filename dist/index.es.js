@@ -1941,52 +1941,31 @@ var bind = createCommonjsModule(function (module) {
 }());
 });
 
-function styleInject(css, ref) {
-  if ( ref === void 0 ) ref = {};
-  var insertAt = ref.insertAt;
+var cx = bind.bind(undefined);
+var StatelessComponent = function StatelessComponent(props) {
+  var _props$list = props.list,
+      list = _props$list === undefined ? [] : _props$list;
 
-  if (!css || typeof document === 'undefined') { return; }
-
-  var head = document.head || document.getElementsByTagName('head')[0];
-  var style = document.createElement('style');
-  style.type = 'text/css';
-
-  if (insertAt === 'top') {
-    if (head.firstChild) {
-      head.insertBefore(style, head.firstChild);
-    } else {
-      head.appendChild(style);
-    }
-  } else {
-    head.appendChild(style);
-  }
-
-  if (style.styleSheet) {
-    style.styleSheet.cssText = css;
-  } else {
-    style.appendChild(document.createTextNode(css));
-  }
-}
-
-var css = ".index__message___OBrSd {\r\n    width: 100%;\r\n    height: auto;\r\n    border: 1px solid midnightblue;\r\n    padding: 10px;\r\n    background-color: lightcoral;\r\n    \r\n  }";
-styleInject(css);
-
-var css$1 = ".other__other___2LLa0{\r\n    color:#fff;\r\n}";
-styleInject(css$1);
-
-var cx = bind.bind(css);
-var StatelessComponent = function StatelessComponent(_ref) {
-  var _ref$message = _ref.message,
-      message = _ref$message === undefined ? 'world' : _ref$message;
   return react.createElement(
     'div',
-    { className: css.message },
+    { className: undefined.message },
     react.createElement(
       'span',
-      { className: css$1.other },
-      'Hello ',
-      message,
-      ', React is awesome !!!'
+      null,
+      'This is a Message:',
+      props.message
+    ),
+    props.isArray && react.createElement(
+      'span',
+      null,
+      'isArray'
+    ),
+    react.createElement(
+      'ul',
+      null,
+      list.map(function (i) {
+        return i.name;
+      })
     )
   );
 };

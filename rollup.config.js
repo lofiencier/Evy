@@ -59,8 +59,9 @@ export default {
       getExport(id) {
         return cssExportMap[id];
       },
-      extensions: ['.css'],
-      // extract: 'dist/styles.css',
+      minimize:true,
+      extensions: ['.css','.less'],
+      extract: 'dist/styles.css',
     }),
     babel({ exclude: 'node_modules/**' }),
     resolve({

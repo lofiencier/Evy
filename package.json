@@ -11,7 +11,9 @@
   ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "cross-env NODE_ENV=development rollup -c"
+    "build": "cross-env NODE_ENV=development rollup -c",
+    "clean:node": "rimraf node_modules",
+    "clean:dist": "rimraf dist"
   },
   "repository": {
     "type": "git",
@@ -25,8 +27,7 @@
   },
   "homepage": "https://github.com/lofiencier/Evy#readme",
   "dependencies": {
-    "react-router-dom": "^4.3.1",
-    "rollup": "^0.66.0"
+    "classnames": "^2.2.6"
   },
   "devDependencies": {
     "autoprefixer": "^9.1.5",
@@ -38,9 +39,11 @@
     "babel-preset-es2015-rollup": "^3.0.0",
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-0": "^6.24.1",
-    "classnames": "^2.2.6",
     "cross-env": "^5.2.0",
     "cssnano": "^4.1.0",
+    "extract-text-webpack-plugin": "^3.0.2",
+    "less": "^3.8.1",
+    "less-loader": "^4.1.0",
     "polished": "^2.0.3",
     "postcss-global-import": "^1.0.6",
     "postcss-import": "^12.0.0",
@@ -50,6 +53,8 @@
     "prop-types": "^15.6.2",
     "react": "^16.5.2",
     "react-dom": "^16.5.2",
+    "rimraf": "^2.6.2",
+    "rollup": "^0.66.0",
     "rollup-plugin-babel": "^3.0.1",
     "rollup-plugin-commonjs": "^9.1.8",
     "rollup-plugin-flow": "^1.1.1",
@@ -57,7 +62,6 @@
     "rollup-plugin-peer-deps-external": "^2.2.0",
     "rollup-plugin-postcss": "^1.6.2",
     "rollup-plugin-uglify": "^6.0.0",
-    "rollup-plugin-url": "^1.4.0",
-    "styled-components": "^3.4.9"
+    "rollup-plugin-url": "^1.4.0"
   }
 }
