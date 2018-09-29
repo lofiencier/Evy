@@ -29,7 +29,7 @@ setDefaults({
   maxPropsIntoLine: 1
 });
 function loadStories() {
-  require("../stories/index")
+  require("../stories/story")
 }
 
 setAddon(infoAddon);

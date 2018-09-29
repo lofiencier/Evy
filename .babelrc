@@ -3,8 +3,5 @@
         "es2015-rollup",
         "react",
         "stage-0"
-    ],
-    "plugins": [
-        "external-helpers"
     ]
 }

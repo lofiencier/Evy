@@ -63,7 +63,7 @@ export default {
       extensions: ['.css','.less'],
       extract: 'dist/styles.css',
     }),
-    babel({ exclude: 'node_modules/**' }),
+    babel({ exclude: 'node_modules/**',plugins: ['external-helpers'],externalHelpers: true }),
     resolve({
       jsnext: true,
       main: true,

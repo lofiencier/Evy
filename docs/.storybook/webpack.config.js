@@ -2,6 +2,8 @@ const path = require('path');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const webpack = require('webpack');
 const postcssConfig = path.resolve(__dirname, './postcss.config.js');
+// const glob = require('glob');
+// const PurifyCSSPlugin = require('purifycss-webpack');
 let root = __dirname.replace(/\\docs\\\.storybook/,'');
 
 module.exports = {
@@ -74,7 +76,12 @@ module.exports = {
             }
         ]
     },
-    plugins: [new ExtractTextPlugin('styles.css')],
+    plugins: [
+        new ExtractTextPlugin('styles.css'),
+        // new PurifyCSSPlugin({
+        //     paths: glob.sync(path.join(__dirname, 'app/*.html')),
+        // })
+    ],
     resolve: {
 		alias: {
             '@components': `${root}/lib/components`

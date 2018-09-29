@@ -1899,80 +1899,28 @@ if (process.env.NODE_ENV === 'production') {
 }
 });
 
-var bind = createCommonjsModule(function (module) {
-/*!
-  Copyright (c) 2017 Jed Watson.
-  Licensed under the MIT License (MIT), see
-  http://jedwatson.github.io/classnames
-*/
-/* global define */
+// import React,{Component} from 'react';
 
-(function () {
+var FuncDeclaration = function (_React$Component) {
+  babelHelpers.inherits(FuncDeclaration, _React$Component);
 
-	var hasOwn = {}.hasOwnProperty;
+  function FuncDeclaration() {
+    babelHelpers.classCallCheck(this, FuncDeclaration);
+    return babelHelpers.possibleConstructorReturn(this, (FuncDeclaration.__proto__ || Object.getPrototypeOf(FuncDeclaration)).apply(this, arguments));
+  }
 
-	function classNames () {
-		var classes = [];
+  babelHelpers.createClass(FuncDeclaration, [{
+    key: 'render',
+    value: function render() {
+      return react.createElement(
+        'span',
+        null,
+        '12312'
+      );
+    }
+  }]);
+  return FuncDeclaration;
+}(react.Component);
 
-		for (var i = 0; i < arguments.length; i++) {
-			var arg = arguments[i];
-			if (!arg) continue;
-
-			var argType = typeof arg;
-
-			if (argType === 'string' || argType === 'number') {
-				classes.push(this && this[arg] || arg);
-			} else if (Array.isArray(arg)) {
-				classes.push(classNames.apply(this, arg));
-			} else if (argType === 'object') {
-				for (var key in arg) {
-					if (hasOwn.call(arg, key) && arg[key]) {
-						classes.push(this && this[key] || key);
-					}
-				}
-			}
-		}
-
-		return classes.join(' ');
-	}
-
-	if (module.exports) {
-		classNames.default = classNames;
-		module.exports = classNames;
-	} else {
-		window.classNames = classNames;
-	}
-}());
-});
-
-var cx = bind.bind(undefined);
-var StatelessComponent = function StatelessComponent(props) {
-  var _props$list = props.list,
-      list = _props$list === undefined ? [] : _props$list;
-
-  return react.createElement(
-    'div',
-    { className: undefined.message },
-    react.createElement(
-      'span',
-      null,
-      'This is a Message:',
-      props.message
-    ),
-    props.isArray && react.createElement(
-      'span',
-      null,
-      'isArray'
-    ),
-    react.createElement(
-      'ul',
-      null,
-      list.map(function (i) {
-        return i.name;
-      })
-    )
-  );
-};
-
-exports.Iiu = StatelessComponent;
+exports.Iiu = FuncDeclaration;
 //# sourceMappingURL=index.js.map
