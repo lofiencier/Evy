@@ -63,7 +63,12 @@ export default {
       extensions: ['.css','.less'],
       extract: 'dist/styles.css',
     }),
-    babel({ exclude: 'node_modules/**',plugins: ['external-helpers'],externalHelpers: true }),
+    babel({
+      exclude: 'node_modules/**',
+      presets:"es2015-rollup",
+      plugins: ['external-helpers'],
+      externalHelpers: true
+    }),
     resolve({
       jsnext: true,
       main: true,

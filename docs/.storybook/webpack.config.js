@@ -5,15 +5,16 @@ const postcssConfig = path.resolve(__dirname, './postcss.config.js');
 // const glob = require('glob');
 // const PurifyCSSPlugin = require('purifycss-webpack');
 let root = __dirname.replace(/\\docs\\\.storybook/,'');
-
 module.exports = {
     module: {
         rules: [
             {
-                test: /\.js$/,
-                exclude: /node_modules/,
-                loader: 'babel-loader'
-            }, {
+                test:/\.js$/,
+                use:'babel-loader',
+                include:path.resolve(root,'lib/'),
+                exclude:path.resolve(__dirname,'../node_modules/')
+            },
+            {
                 test: /\.less$/,
                 use: ExtractTextPlugin.extract({
                     fallback: 'style-loader',
