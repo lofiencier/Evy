@@ -4,14 +4,14 @@ const webpack = require('webpack');
 const postcssConfig = path.resolve(__dirname, './postcss.config.js');
 // const glob = require('glob');
 // const PurifyCSSPlugin = require('purifycss-webpack');
-let root = __dirname.replace(/\\docs\\\.storybook/,'');
+let rootPath = __dirname.replace(/\\docs\\\.storybook/,'');
 module.exports = {
     module: {
         rules: [
             {
                 test:/\.js$/,
                 use:'babel-loader',
-                include:path.resolve(root,'lib/'),
+                include:path.resolve(rootPath,'lib/'),
                 exclude:path.resolve(__dirname,'../node_modules/')
             },
             {
@@ -85,7 +85,7 @@ module.exports = {
     ],
     resolve: {
 		alias: {
-            '@components': `${root}/lib/components`
+            '@components': `${rootPath}/lib/components`
         }
 	}
 };
