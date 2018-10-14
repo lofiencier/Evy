@@ -74,6 +74,16 @@ module.exports = {
                     limit: 1,
                     name: '[name].[hash:8].[ext]'
                 }
+            },{
+                test: /\.(woff|woff2|svg|eot|ttf|otf)$/,
+                exclude: path.resolve(__dirname, 'node_modules/'),
+                use: [{
+                    loader:'file-loader',
+                    options: {
+                        limit: 10000,
+                        name: 'fonts/[name].[ext]'
+                    }
+                }]
             }
         ]
     },
@@ -85,7 +95,7 @@ module.exports = {
     ],
     resolve: {
 		alias: {
-            '@components': `${rootPath}/lib/components`
+            '@components': `${rootPath}/components`
         }
 	}
 };

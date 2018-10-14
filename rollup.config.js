@@ -14,8 +14,8 @@ import url from 'rollup-plugin-url';
 import pkg from "./package.json"
 
 const cssExportMap = {};
-const isProd = process.env.NODE_ENV === 'production';
 
+const isProd = process.env.NODE_ENV === 'production';
 let postcssPlugins = [
   postcssImport(),
   globalImport(),

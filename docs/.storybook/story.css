@@ -1,13 +1,6 @@
   @font-face {
-    font-family: 'aspirathin';
-    src: url("https://assets.ggops.com/fonts/Aspira-Thin.eot") format("eot"),url("https://assets.ggops.com/fonts/Aspira-Thin.svg") format("svg"),url("https://assets.ggops.com/fonts/Aspira-Thin.ttf") format("ttf"),url("https://assets.ggops.com/fonts/Aspira-Thin.woff") format("woff"),url("https://assets.ggops.com/fonts/Aspira-Thin.woff2") format("woff2");
-    font-weight: normal;
-    font-style: normal;
-  }
-  
-  @font-face {
     font-family: 'aspiralight';
-    src: url("https://assets.ggops.com/fonts/Aspira-Light.eot") format("eot"),url("https://assets.ggops.com/fonts/Aspira-Light.svg") format("svg"),url("https://assets.ggops.com/fonts/Aspira-Light.ttf") format("ttf"),url("https://assets.ggops.com/fonts/Aspira-Light.woff") format("woff"),url("https://assets.ggops.com/fonts/Aspira-Light.woff2") format("woff2");
+    src:url("./Aspira-Light.woff") format("woff");
     font-weight: normal;
     font-style: normal;
   }
