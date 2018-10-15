@@ -50,6 +50,37 @@ var bind = createCommonjsModule(function (module) {
 }());
 });
 
+function styleInject(css, ref) {
+  if ( ref === void 0 ) ref = {};
+  var insertAt = ref.insertAt;
+
+  if (!css || typeof document === 'undefined') { return; }
+
+  var head = document.head || document.getElementsByTagName('head')[0];
+  var style = document.createElement('style');
+  style.type = 'text/css';
+
+  if (insertAt === 'top') {
+    if (head.firstChild) {
+      head.insertBefore(style, head.firstChild);
+    } else {
+      head.appendChild(style);
+    }
+  } else {
+    head.appendChild(style);
+  }
+
+  if (style.styleSheet) {
+    style.styleSheet.cssText = css;
+  } else {
+    style.appendChild(document.createTextNode(css));
+  }
+}
+
+var css = ".index_index__messeage___2rf9D__g13XW{color:red}";
+var styles = { "index__messeage___2rf9D": "index_index__messeage___2rf9D__g13XW" };
+styleInject(css);
+
 var classCallCheck = function (instance, Constructor) {
   if (!(instance instanceof Constructor)) {
     throw new TypeError("Cannot call a class as a function");
@@ -98,7 +129,7 @@ var possibleConstructorReturn = function (self, call) {
   return call && (typeof call === "object" || typeof call === "function") ? call : self;
 };
 
-var cx = bind.bind(undefined);
+var cx = bind.bind(styles);
 
 var Iiu = function (_React$Component) {
   inherits(Iiu, _React$Component);
@@ -113,7 +144,7 @@ var Iiu = function (_React$Component) {
     value: function render() {
       return React.createElement(
         'div',
-        { className: cx('messeage') },
+        { className: styles.message },
         React.createElement(
           'p',
           null,

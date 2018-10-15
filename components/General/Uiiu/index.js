@@ -4,12 +4,14 @@ import PropTypes from 'prop-types'
 import styles from './index.less'
 
 const cx = className.bind(styles);
+console.log(styles);
+
 class Iiu extends React.Component{
   constructor(props){
     super()
   }
   render(){
-    return <div className={cx(styles.message)}>
+    return <div className={cx('messeage')}>
       <p>title</p>
       <span>22222</span>
     </div>

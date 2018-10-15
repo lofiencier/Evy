@@ -50,6 +50,37 @@ var bind = createCommonjsModule(function (module) {
 }());
 });
 
+function styleInject(css, ref) {
+  if ( ref === void 0 ) ref = {};
+  var insertAt = ref.insertAt;
+
+  if (!css || typeof document === 'undefined') { return; }
+
+  var head = document.head || document.getElementsByTagName('head')[0];
+  var style = document.createElement('style');
+  style.type = 'text/css';
+
+  if (insertAt === 'top') {
+    if (head.firstChild) {
+      head.insertBefore(style, head.firstChild);
+    } else {
+      head.appendChild(style);
+    }
+  } else {
+    head.appendChild(style);
+  }
+
+  if (style.styleSheet) {
+    style.styleSheet.cssText = css;
+  } else {
+    style.appendChild(document.createTextNode(css));
+  }
+}
+
+var css = ".index_index__order___2eeW-__1g9ZC{color:red}";
+var styles = { "index__order___2eeW-": "index_index__order___2eeW-__1g9ZC" };
+styleInject(css);
+
 var classCallCheck = function (instance, Constructor) {
   if (!(instance instanceof Constructor)) {
     throw new TypeError("Cannot call a class as a function");
@@ -98,7 +129,8 @@ var possibleConstructorReturn = function (self, call) {
   return call && (typeof call === "object" || typeof call === "function") ? call : self;
 };
 
-var cx = bind.bind(undefined);
+var cx = bind.bind(styles);
+console.log(styles);
 
 var Iiu = function (_React$Component) {
   inherits(Iiu, _React$Component);
@@ -159,5 +191,5 @@ Iiu.__docgenInfo = {
   }
 };
 
-export { Iiu };
+export default Iiu;
 //# sourceMappingURL=index.js.map

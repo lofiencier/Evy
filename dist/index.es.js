@@ -1,10 +1,4 @@
-'use strict';
-
-Object.defineProperty(exports, '__esModule', { value: true });
-
-function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'default' in ex) ? ex['default'] : ex; }
-
-var React = _interopDefault(require('react'));
+import React from 'react';
 
 function createCommonjsModule(fn, module) {
 	return module = { exports: {} }, fn(module, module.exports), module.exports;
@@ -196,5 +190,5 @@ Iiu.__docgenInfo = {
   }
 };
 
-exports.Iiu = Iiu;
-//# sourceMappingURL=index.cjs.js.map
+export { Iiu };
+//# sourceMappingURL=index.es.js.map

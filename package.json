@@ -2,7 +2,7 @@
   "name": "Evy",
   "version": "1.0.0",
   "description": "",
-  "main": "dist/index.js",
+  "main": "dist/index.cjs.js",
   "module": "dist/index.es.js",
   "files": [
     "dist",
@@ -10,8 +10,7 @@
     "es"
   ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "rimraf dist && node tools/build.js",
+    "build": "rimraf dist && node tools/build.js NODE_ENV=production",
     "clean": "rimraf dist"
   },
   "repository": {

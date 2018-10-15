@@ -69,52 +69,56 @@ const getPostPlugins = () => {
 }
 
 // Configuration shared across builds
-const commonConfig = {
-    // Make sure the 3rd party libs externals dependencies and prevent bundling them
-    external: [
-        ...Object.keys(pkg.devDependencies),
-        ...Object.keys(pkg.dependencies),
-        ...Object.keys(pkg.peerDependencies)
-    ],
-    plugins: [
-        resolve({
-            extensions: ['.js', '.jsx', '.json']
-        }),
-        postcss({
-            plugins: getPostPlugins(),
-            getExportNamed: false,
-            getExport(id) {
-                return cssExportMap[id];
-            },
-            minimize: true,
-            extensions: [
-                '.css', '.less'
-            ],
-            extract: 'dist/styles.css'
-        }),
-        commonjs({
-            include: 'node_modules/**',
-            namedExports: {
-                'node_modules/react/index.js': [
-                    'Children', 'Component', 'PropTypes', 'createElement'
+const getCommonConfig =path=> {
+    let extract=!!path?{extract:`${path}.css`}:{};
+    return {
+        // Make sure the 3rd party libs externals dependencies and prevent bundling them
+        external: [
+            ...Object.keys(pkg.devDependencies),
+            ...Object.keys(pkg.dependencies),
+            ...Object.keys(pkg.peerDependencies)
+        ],
+        plugins: [
+            resolve({
+                extensions: ['.js', '.jsx', '.json']
+            }),
+            postcss({
+                plugins: getPostPlugins(),
+                modules: true,
+                getExportNamed: true,
+                getExport(id) {
+                    return cssExportMap[id];
+                },
+                minimize: true,
+                extensions: [
+                    '.css', '.less'
                 ],
-                'node_modules/react-dom/index.js': ['render']
-            }
-        }),
-        babel({
-            exclude: 'node_modules/**',
-            plugins: [
-                'external-helpers',
-                [
-                    'transform-react-remove-prop-types', {
-                        removeImport: true
-                    }
+                // ...extract
+            }),
+            commonjs({
+                include: 'node_modules/**',
+                namedExports: {
+                    'node_modules/react/index.js': [
+                        'Children', 'Component', 'PropTypes', 'createElement'
+                    ],
+                    'node_modules/react-dom/index.js': ['render']
+                }
+            }),
+            babel({
+                exclude: 'node_modules/**',
+                plugins: [
+                    'external-helpers',
+                    [
+                        'transform-react-remove-prop-types', {
+                            removeImport: true
+                        }
+                    ]
                 ]
-            ]
-        }),
-        isProd && uglify()
-    ]
-};
+            }),
+            isProd && uglify()
+        ]
+    };
+}
 
 // Logs a message to inform of the build state
 const log = message => console.log(`---- ${message} ----`);
@@ -123,11 +127,6 @@ const isMatchFile = source => /index\.js$/.test(source);
 // Finds if given path is a directory
 const isDirectory = source => lstatSync(source).isDirectory();
 
-// Finds directories inside a given directory path
-// const getDirectories = source => readdirSync(source)
-//     .map(name => join(source, name))
-//     .filter(isDirectory);
-    
 const loop = (path, files = []) => {
     readdirSync(path).map(i => {
         let dir = join(path, i);
@@ -139,44 +138,27 @@ const loop = (path, files = []) => {
     });
     return files
 }
-// Finds files inside a given directory path
-// const getFiles = source => readdirSync(source)
-//     .map(name => join(source, name))
-//     .filter(f => !isDirectory(f));
-
-// Lists all files inside the components/ directory
-// const listFiles = () => {
-//     log('Finding files in .components/ directory');
-//     const directories = [];
-//     getDirectories(COMPONENTS).map(name => directories.push(name));
-//     // console.log("step", directories);
-//     console.log('loop',loop(COMPONENTS));
-//     const files = directories.reduce((list, directory) => [
-//         ...list,
-//         ...getFiles(directory)
-//     ], [...getFiles(COMPONENTS)]);
-//     console.log("step", files);
-//     return files;
-// };
 
 // Builds the filepath for the given file
 const getFileNameData = (file, format) => {
-    console.log('file', file);
     const originalPath = file
+        .replace(/components\\?/,'')
         .split('/')
         .reverse()[0]
         .replace('jsx', 'js');
     const [name] = originalPath.split('.');
-    const filepath = `dist/${originalPath}`;
+    const filepath = `dist/${originalPath=='index.js'?'index.es.js':originalPath}`;
     return {filepath, name};
 };
 
 // Builds the Rollup configuration for a new file
 function createFileConfiguration(input, format, outputName, fileName) {
+    // console.log(`${input},${format},${outputName},${fileName}`.bgRed);
+    let cssPath=!/(\.cjs|\.es)(\.js|\.jsx)$/.test(outputName)&&outputName.replace(/(\.js|.jsx)$/,'');
     return {
         inputOptions: {
             input,
-            ...commonConfig
+            ...getCommonConfig(cssPath)
         },
         outputOptions: {
             globals: {
@@ -198,7 +180,7 @@ function createFileConfiguration(input, format, outputName, fileName) {
 function buildESMConfigurations() {
     const format = 'es';
     let files = loop(COMPONENTS).reduce((acc, file) => {
-        console.log(acc, file);
+        console.log('es',acc, file);
         const {filepath, name} = getFileNameData(file, format);
         const config = createFileConfiguration(file, format, filepath, name);
         return [
@@ -358,7 +340,7 @@ async function build() {
     try {
         const configurations = [
             // Probably only the index is needed for UMD Build UMD configuration
-            createFileConfiguration(`${COMPONENTS}/index.js`, 'umd', 'dist/Evy.umd.js', pkg.name),
+            // createFileConfiguration(`${COMPONENTS}/index.js`, 'umd', 'dist/Evy.umd.js', pkg.name),
             // Build CJS
             createFileConfiguration(`${COMPONENTS}/index.js`, 'cjs', 'dist/index.cjs.js', pkg.name),
             // Build ESM

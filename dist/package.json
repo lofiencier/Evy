@@ -2,7 +2,7 @@
   "name": "Evy",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "index.cjs.js",
   "module": "index.es.js",
   "repository": {
     "type": "git",
