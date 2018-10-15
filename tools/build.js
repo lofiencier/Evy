@@ -1,6 +1,4 @@
-// PRs welcome!
-
-// import system dependencies
+// PRs welcome! import system dependencies
 const {
     lstatSync,
     readdirSync,
@@ -9,8 +7,8 @@ const {
     writeFile,
     rename
 } = require('fs');
-const { join, resolve: resolvePath } = require('path');
-const { spawn } = require('child_process');
+const {join, resolve: resolvePath} = require('path');
+const {spawn} = require('child_process');
 
 // Import rollup plugins
 const rollup = require('rollup');
@@ -18,15 +16,15 @@ const babel = require('rollup-plugin-babel');
 const resolve = require('rollup-plugin-node-resolve');
 const commonjs = require('rollup-plugin-commonjs');
 const uglify = require('rollup-plugin-uglify');
-const postcss =require('rollup-plugin-postcss');
+const postcss = require('rollup-plugin-postcss');
 const cssnano = require('cssnano');
 const precss = require('precss');
-const autoprefixer=require('autoprefixer');
-const postcssModules= require('postcss-modules');
-const postcssUrl =require('postcss-url');
-const postcssImport =require('postcss-import');
-const globalImport=require('postcss-global-import');
-const url =require('rollup-plugin-url');
+const autoprefixer = require('autoprefixer');
+const postcssModules = require('postcss-modules');
+const postcssUrl = require('postcss-url');
+const postcssImport = require('postcss-import');
+const globalImport = require('postcss-global-import');
+const url = require('rollup-plugin-url');
 const colors = require('colors');
 // Import package.json file for its configurations
 const pkg = require('../package.json');
@@ -43,29 +41,31 @@ const hasVersionTag = !!process.env.TAG;
 // Define reusable constants
 const COMPONENTS = 'components';
 // Formats used to build modules
+
 const formats = ['cjs'];
 //postcss plugins
-const getPostPlugins=()=>{
+const getPostPlugins = () => {
     let postcssPlugins = [
         postcssImport(),
         globalImport(),
-        postcssUrl({
-          url: 'inline',
-        }),
+        postcssUrl({url: 'inline'}),
         precss(),
         autoprefixer(),
         postcssModules({
-          getJSON(id, exportTokens) {
-            cssExportMap[id] = exportTokens;
-          },
-          generateScopedName: '[name]__[local]___[hash:base64:5]',
-        }),
-      ];
-      
-      if (isProd) {
-        postcssPlugins = [...postcssPlugins, cssnano()];
-      }
-      return postcssPlugins
+            getJSON(id, exportTokens) {
+                cssExportMap[id] = exportTokens;
+            },
+            generateScopedName: '[name]__[local]___[hash:base64:5]'
+        })
+    ];
+
+    if (isProd) {
+        postcssPlugins = [
+            ...postcssPlugins,
+            cssnano()
+        ];
+    }
+    return postcssPlugins
 }
 
 // Configuration shared across builds
@@ -84,20 +84,19 @@ const commonConfig = {
             plugins: getPostPlugins(),
             getExportNamed: false,
             getExport(id) {
-              return cssExportMap[id];
+                return cssExportMap[id];
             },
-            minimize:true,
-            extensions: ['.css','.less'],
-            extract: 'dist/styles.css',
-          }),
+            minimize: true,
+            extensions: [
+                '.css', '.less'
+            ],
+            extract: 'dist/styles.css'
+        }),
         commonjs({
             include: 'node_modules/**',
             namedExports: {
                 'node_modules/react/index.js': [
-                    'Children',
-                    'Component',
-                    'PropTypes',
-                    'createElement'
+                    'Children', 'Component', 'PropTypes', 'createElement'
                 ],
                 'node_modules/react-dom/index.js': ['render']
             }
@@ -106,51 +105,70 @@ const commonConfig = {
             exclude: 'node_modules/**',
             plugins: [
                 'external-helpers',
-                ['transform-react-remove-prop-types', { removeImport: true }]
+                [
+                    'transform-react-remove-prop-types', {
+                        removeImport: true
+                    }
+                ]
             ]
         }),
-        isProd && uglify(),
+        isProd && uglify()
     ]
 };
 
 // Logs a message to inform of the build state
 const log = message => console.log(`---- ${message} ----`);
 
+const isMatchFile = source => /index\.js$/.test(source);
 // Finds if given path is a directory
 const isDirectory = source => lstatSync(source).isDirectory();
 
 // Finds directories inside a given directory path
-const getDirectories = source =>
-    readdirSync(source)
-        .map(name => join(source, name))
-        .filter(isDirectory);
-
+// const getDirectories = source => readdirSync(source)
+//     .map(name => join(source, name))
+//     .filter(isDirectory);
+    
+const loop = (path, files = []) => {
+    readdirSync(path).map(i => {
+        let dir = join(path, i);
+        if (isDirectory(dir)) {
+            return loop(dir, files);
+        } else if (isMatchFile(dir) && !isDirectory(dir)) {
+            files.push(dir)
+        }
+    });
+    return files
+}
 // Finds files inside a given directory path
-const getFiles = source =>
-    readdirSync(source)
-        .map(name => join(source, name))
-        .filter(f => {!isDirectory(f)});
+// const getFiles = source => readdirSync(source)
+//     .map(name => join(source, name))
+//     .filter(f => !isDirectory(f));
 
 // Lists all files inside the components/ directory
-const listFiles = () => {
-    log('Finding files in .components/ directory');
-    const directories = [];
-    getDirectories(COMPONENTS).map(name=>directories.push(name));
-    console.log("step",directories);
-    const files = directories.reduce((list, directory) =>[...list, ...getFiles(directory)], [...getFiles(COMPONENTS)]);
-    console.log("step",files);
-    return files;
-};
+// const listFiles = () => {
+//     log('Finding files in .components/ directory');
+//     const directories = [];
+//     getDirectories(COMPONENTS).map(name => directories.push(name));
+//     // console.log("step", directories);
+//     console.log('loop',loop(COMPONENTS));
+//     const files = directories.reduce((list, directory) => [
+//         ...list,
+//         ...getFiles(directory)
+//     ], [...getFiles(COMPONENTS)]);
+//     console.log("step", files);
+//     return files;
+// };
 
 // Builds the filepath for the given file
 const getFileNameData = (file, format) => {
+    console.log('file', file);
     const originalPath = file
         .split('/')
         .reverse()[0]
         .replace('jsx', 'js');
     const [name] = originalPath.split('.');
     const filepath = `dist/${originalPath}`;
-    return { filepath, name };
+    return {filepath, name};
 };
 
 // Builds the Rollup configuration for a new file
@@ -179,13 +197,15 @@ function createFileConfiguration(input, format, outputName, fileName) {
 // Creates ESM configs for components
 function buildESMConfigurations() {
     const format = 'es';
-    let files=listFiles().reduce((acc, file) => {
-        console.log(acc);
-        const { filepath, name } = getFileNameData(file, format);
+    let files = loop(COMPONENTS).reduce((acc, file) => {
+        console.log(acc, file);
+        const {filepath, name} = getFileNameData(file, format);
         const config = createFileConfiguration(file, format, filepath, name);
-        return [...acc, config];
+        return [
+            ...acc,
+            config
+        ];
     }, []);
-    console.log("step",files)
     return files
 }
 
@@ -208,20 +228,20 @@ function copyFile(source, target) {
 
 // Create a simplified package.json for the package
 function createPackageFile() {
-    const packageData = JSON.stringify(
-        {
-            name: pkg.name,
-            version: pkg.version,
-            description: pkg.description,
-            main: pkg.main.replace('dist/', ''),
-            module: pkg.module.replace('dist/', ''),
-            repository: pkg.repository,
-            dependencies: pkg.dependencies,
-            peerDependencies: pkg.peerDependencies
-        },
-        null,
-        2
-    );
+    const packageData = JSON.stringify({
+        name: pkg.name,
+        version: pkg.version,
+        description: pkg.description,
+        main: pkg
+            .main
+            .replace('dist/', ''),
+        module: pkg
+            .module
+            .replace('dist/', ''),
+        repository: pkg.repository,
+        dependencies: pkg.dependencies,
+        peerDependencies: pkg.peerDependencies
+    }, null, 2);
     return new Promise((resolve, reject) => {
         const write = writeFile('dist/package.json', packageData, 'utf-8', resolve);
     }).catch(error => {
@@ -240,31 +260,49 @@ function createExtraFiles() {
 // Run an NPM process on the dist/ dir
 function runNPMProcess(script, ...args) {
     let childProcess;
-    if(/^win/.test(process.platform)){
-        childProcess = spawn('npm.cmd', [script, ...args], { sdio: 'inherit', cwd: 'dist/' });
-    }else{
-        childProcess = spawn('npm', [script, ...args], { sdio: 'inherit', cwd: 'dist/' });
+    if (/^win/.test(process.platform)) {
+        childProcess = spawn('npm.cmd', [
+            script, ...args
+        ], {
+            sdio: 'inherit',
+            cwd: 'dist/'
+        });
+    } else {
+        childProcess = spawn('npm', [
+            script, ...args
+        ], {
+            sdio: 'inherit',
+            cwd: 'dist/'
+        });
     }
     return new Promise((resolve, reject) => {
         let stdOut = '';
         // Capture STDOUT
-        childProcess.stdout.on('data', err => {
-            stdOut += err.toString();
-        });
+        childProcess
+            .stdout
+            .on('data', err => {
+                stdOut += err.toString();
+            });
         let fullError = '';
         // Capture STDERR data to send in case of failure
-        childProcess.stderr.on('data', err => {
-            fullError += err.toString();
-        });
+        childProcess
+            .stderr
+            .on('data', err => {
+                fullError += err.toString();
+            });
         childProcess.on('error', reject);
-        childProcess.on('close', () => (fullError ? reject(fullError) : resolve(stdOut)));
+        childProcess.on('close', () => (fullError
+            ? reject(fullError)
+            : resolve(stdOut)));
     });
 }
 
 // Change a file's path
 function moveFile(oldPath, newPath) {
     return new Promise((resolve, reject) => {
-        rename(oldPath, newPath, err => (err ? reject(err) : resolve()));
+        rename(oldPath, newPath, err => (err
+            ? reject(err)
+            : resolve()));
     });
 }
 
@@ -297,8 +335,7 @@ async function packDistDir() {
     return moveFile(`./dist/${tarName}`, tarName);
 }
 
-// Publish package to NPM
-// only if PUBLISH_PACK env var is set to true
+// Publish package to NPM only if PUBLISH_PACK env var is set to true
 function publishDist() {
     log('Running NPM publish');
     if (hasVersionTag) {
@@ -306,28 +343,22 @@ function publishDist() {
         log(`Publishing version: ${versionTag} / ${pkg.version}`);
         return runNPMProcess('publish', '--tag', versionTag);
     } else {
-        return Promise.reject(
-            '---- Version tag must be provided as an ENV VAR: env TAG=latest yarn run publish-pack ----'
-        );
+        return Promise.reject('---- Version tag must be provided as an ENV VAR: env TAG=latest yarn run publish' +
+                '-pack ----');
     }
 }
 
-// Main function
-// Calls Rollup with a specific configuration for each file in the components/ directory
-// This creates a common-js and an ES module for each file, to allow importing them individually
-// Additionally, it creates an index.js in file to allow importing the whole library (and allow retrocompatibility),
-// A UMD build (index.umd.js) is created to allow loading the library in browsers
+// Main function Calls Rollup with a specific configuration for each file in the
+// components/ directory This creates a common-js and an ES module for each
+// file, to allow importing them individually Additionally, it creates an
+// index.js in file to allow importing the whole library (and allow
+// retrocompatibility), A UMD build (index.umd.js) is created to allow loading
+// the library in browsers
 async function build() {
     try {
         const configurations = [
-            // Probably only the index is needed for UMD
-            // Build UMD configuration
-            createFileConfiguration(
-                `${COMPONENTS}/index.js`,
-                'umd',
-                'dist/Evy.umd.js',
-                pkg.name
-            ),
+            // Probably only the index is needed for UMD Build UMD configuration
+            createFileConfiguration(`${COMPONENTS}/index.js`, 'umd', 'dist/Evy.umd.js', pkg.name),
             // Build CJS
             createFileConfiguration(`${COMPONENTS}/index.js`, 'cjs', 'dist/index.cjs.js', pkg.name),
             // Build ESM
@@ -343,9 +374,8 @@ async function build() {
             const bundle = await rollup.rollup(config.inputOptions);
 
             // generate code and a sourcemap
-            const { code, map } = await bundle.generate(config.outputOptions);
-            // console.log("code",code);
-            // or write the bundle to disk
+            const {code, map} = await bundle.generate(config.outputOptions);
+            // console.log("code",code); or write the bundle to disk
             await bundle.write(config.outputOptions);
         }
 
