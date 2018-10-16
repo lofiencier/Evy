@@ -51,12 +51,12 @@ const getPostPlugins = () => {
         postcssUrl({url: 'inline'}),
         precss(),
         autoprefixer(),
-        postcssModules({
-            getJSON(id, exportTokens) {
-                cssExportMap[id] = exportTokens;
-            },
-            generateScopedName: '[name]__[local]___[hash:base64:5]'
-        })
+        // postcssModules({
+        //     getJSON(id, exportTokens) {
+        //         cssExportMap[id] = exportTokens;
+        //     },
+        //     // generateScopedName: '[name]__[local]___[hash:base64:5]'
+        // })
     ];
 
     if (isProd) {
@@ -85,7 +85,7 @@ const getCommonConfig =path=> {
             postcss({
                 plugins: getPostPlugins(),
                 modules: true,
-                getExportNamed: true,
+                // getExportNamed: false,
                 getExport(id) {
                     return cssExportMap[id];
                 },
@@ -94,6 +94,7 @@ const getCommonConfig =path=> {
                     '.css', '.less'
                 ],
                 // ...extract
+                extract:true
             }),
             commonjs({
                 include: 'node_modules/**',

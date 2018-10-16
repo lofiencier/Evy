@@ -6,25 +6,25 @@ import styles from './index.less'
 const cx = className.bind(styles);
 console.log(styles);
 
-class Iiu extends React.Component{
+class HHH extends React.Component{
   constructor(props){
     super()
   }
   render(){
-    return <div className={cx('messeage')}>
+    return <div className={cx('order')}>
       <p>title</p>
       <span>22222</span>
     </div>
   }
 }
-Iiu.defaultProps={
+HHH.defaultProps={
   whatever:'whatever'
 }
-Iiu.propTypes={
+HHH.propTypes={
   /** jsjsjsjsajdoiajsoj  */
   whatever:PropTypes.string.isRequired,
   /** finalllllllly 啊，you mother fucker */
   motherFucker:PropTypes.bool
 }
 
-export default Iiu
+export default HHH
