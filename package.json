@@ -5,13 +5,12 @@
   "main": "dist/index.cjs.js",
   "module": "dist/index.es.js",
   "files": [
-    "dist",
-    "lib",
-    "es"
+    "dist/components"
   ],
   "scripts": {
     "build": "rimraf dist && node tools/build.js NODE_ENV=production",
-    "clean": "rimraf dist"
+    "clean": "rimraf dist",
+    "guide": "start-storybook -p 9001 -c .storybook"
   },
   "repository": {
     "type": "git",
@@ -28,10 +27,16 @@
     "classnames": "^2.2.6"
   },
   "peerDependencies": {
-    "react": "^16.5.2",
-    "react-dom": "^16.5.2"
+    "react": "^16.5.0",
+    "react-dom": "^16.5.0"
   },
   "devDependencies": {
+    "@storybook/addon-actions": "^3.4.7",
+    "@storybook/addon-info": "^3.4.7",
+    "@storybook/addon-knobs": "^3.4.7",
+    "@storybook/addon-options": "^3.4.7",
+    "@storybook/addons": "^3.4.7",
+    "@storybook/react": "^3.4.7",
     "autoprefixer": "^9.1.5",
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.3",
@@ -72,6 +77,8 @@
     "rollup-plugin-peer-deps-external": "^2.2.0",
     "rollup-plugin-postcss": "^1.6.2",
     "rollup-plugin-uglify": "^6.0.0",
-    "rollup-plugin-url": "^1.4.0"
+    "rollup-plugin-url": "^1.4.0",
+    "storybook-readme": "^3.3.0",
+    "webpack": "^3.4.1"
   }
 }

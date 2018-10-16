@@ -1,7 +1,7 @@
 import {configure, setAddon} from '@storybook/react';
 import infoAddon, {setDefaults} from '@storybook/addon-info';
 import {setOptions} from '@storybook/addon-options';
-import pkg from "../../package.json"
+import pkg from "../package.json"
 import './story.css'
 
 setOptions({
@@ -29,7 +29,7 @@ setDefaults({
   maxPropsIntoLine: 1
 });
 function loadStories() {
-  require("../stories/story")
+  require("../components/story")
 }
 
 setAddon(infoAddon);

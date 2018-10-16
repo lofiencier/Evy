@@ -4,8 +4,8 @@ import { withReadme } from 'storybook-readme';
 import { withKnobs } from '@storybook/addon-knobs';
 import { withInfo } from '@storybook/addon-info';
 
-const req = require.context('./', true, /index\.js$/);
-
+const req = require.context('./General', true, /\.story\.js$/);
+console.log(req.keys());
 const storyWrapper = story => {
     return <div style={{ margin: '35px' }}>{story()}</div>;
 };
