@@ -5,6 +5,7 @@ Object.defineProperty(exports, '__esModule', { value: true });
 function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'default' in ex) ? ex['default'] : ex; }
 
 var React = _interopDefault(require('react'));
+var PropTypes = _interopDefault(require('prop-types'));
 
 function createCommonjsModule(fn, module) {
 	return module = { exports: {} }, fn(module, module.exports), module.exports;
@@ -56,7 +57,36 @@ var bind = createCommonjsModule(function (module) {
 }());
 });
 
+function styleInject(css, ref) {
+  if ( ref === void 0 ) ref = {};
+  var insertAt = ref.insertAt;
+
+  if (!css || typeof document === 'undefined') { return; }
+
+  var head = document.head || document.getElementsByTagName('head')[0];
+  var style = document.createElement('style');
+  style.type = 'text/css';
+
+  if (insertAt === 'top') {
+    if (head.firstChild) {
+      head.insertBefore(style, head.firstChild);
+    } else {
+      head.appendChild(style);
+    }
+  } else {
+    head.appendChild(style);
+  }
+
+  if (style.styleSheet) {
+    style.styleSheet.cssText = css;
+  } else {
+    style.appendChild(document.createTextNode(css));
+  }
+}
+
+var css = ".index_message__1ymdG{color:red}";
 var styles = { "message": "index_message__1ymdG" };
+styleInject(css);
 
 var classCallCheck = function (instance, Constructor) {
   if (!(instance instanceof Constructor)) {
@@ -141,33 +171,16 @@ var XXX = function (_React$Component) {
 XXX.defaultProps = {
   whatever: 'whatever'
 };
-XXX.__docgenInfo = {
-  'description': '',
-  'methods': [],
-  'displayName': 'XXX',
-  'props': {
-    'whatever': {
-      'defaultValue': {
-        'value': '\'whatever\'',
-        'computed': false
-      },
-      'type': {
-        'name': 'string'
-      },
-      'required': false,
-      'description': 'jsjsjsjsajdoiajsoj'
-    },
-    'motherFucker': {
-      'type': {
-        'name': 'bool'
-      },
-      'required': false,
-      'description': 'finalllllllly \u554A\uFF0Cyou mother fucker'
-    }
-  }
+XXX.propTypes = {
+  /** jsjsjsjsajdoiajsoj  */
+  whatever: PropTypes.string.isRequired,
+  /** finalllllllly 啊，you mother fucker */
+  motherFucker: PropTypes.bool
 };
 
+var css$1 = ".index_order__2eeW-{color:red}";
 var styles$1 = { "order": "index_order__2eeW-" };
+styleInject(css$1);
 
 var cx$1 = bind.bind(styles$1);
 console.log(styles$1);
@@ -205,30 +218,11 @@ var HHH = function (_React$Component) {
 HHH.defaultProps = {
   whatever: 'whatever'
 };
-HHH.__docgenInfo = {
-  'description': '',
-  'methods': [],
-  'displayName': 'HHH',
-  'props': {
-    'whatever': {
-      'defaultValue': {
-        'value': '\'whatever\'',
-        'computed': false
-      },
-      'type': {
-        'name': 'string'
-      },
-      'required': false,
-      'description': 'jsjsjsjsajdoiajsoj'
-    },
-    'motherFucker': {
-      'type': {
-        'name': 'bool'
-      },
-      'required': false,
-      'description': 'finalllllllly \u554A\uFF0Cyou mother fucker'
-    }
-  }
+HHH.propTypes = {
+  /** jsjsjsjsajdoiajsoj  */
+  whatever: PropTypes.string.isRequired,
+  /** finalllllllly 啊，you mother fucker */
+  motherFucker: PropTypes.bool
 };
 
 exports.XXX = XXX;

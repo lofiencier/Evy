@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 function createCommonjsModule(fn, module) {
 	return module = { exports: {} }, fn(module, module.exports), module.exports;
@@ -135,30 +136,11 @@ var XXX = function (_React$Component) {
 XXX.defaultProps = {
   whatever: 'whatever'
 };
-XXX.__docgenInfo = {
-  'description': '',
-  'methods': [],
-  'displayName': 'XXX',
-  'props': {
-    'whatever': {
-      'defaultValue': {
-        'value': '\'whatever\'',
-        'computed': false
-      },
-      'type': {
-        'name': 'string'
-      },
-      'required': false,
-      'description': 'jsjsjsjsajdoiajsoj'
-    },
-    'motherFucker': {
-      'type': {
-        'name': 'bool'
-      },
-      'required': false,
-      'description': 'finalllllllly \u554A\uFF0Cyou mother fucker'
-    }
-  }
+XXX.propTypes = {
+  /** jsjsjsjsajdoiajsoj  */
+  whatever: PropTypes.string.isRequired,
+  /** finalllllllly 啊，you mother fucker */
+  motherFucker: PropTypes.bool
 };
 
 export default XXX;

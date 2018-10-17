@@ -93,8 +93,7 @@ const getCommonConfig =path=> {
                 extensions: [
                     '.css', '.less'
                 ],
-                // ...extract
-                extract:true
+                ...extract
             }),
             commonjs({
                 include: 'node_modules/**',
@@ -109,11 +108,11 @@ const getCommonConfig =path=> {
                 exclude: 'node_modules/**',
                 plugins: [
                     'external-helpers',
-                    [
-                        'transform-react-remove-prop-types', {
-                            removeImport: true
-                        }
-                    ]
+                    // [
+                    //     'transform-react-remove-prop-types', {
+                    //         removeImport: true
+                    //     }
+                    // ]
                 ]
             }),
             isProd && uglify()
@@ -143,12 +142,12 @@ const loop = (path, files = []) => {
 // Builds the filepath for the given file
 const getFileNameData = (file, format) => {
     const originalPath = file
-        .replace(/components\\?/,'')
+        .replace(/components\\?\w+\\?/,'')
         .split('/')
         .reverse()[0]
         .replace('jsx', 'js');
     const [name] = originalPath.split('.');
-    const filepath = `dist/${originalPath=='index.js'?'index.es.js':originalPath}`;
+    const filepath = `dist/${originalPath=='.js'?'index.es.js':originalPath}`;
     return {filepath, name};
 };
 
