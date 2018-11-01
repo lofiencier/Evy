@@ -1,5 +1,5 @@
 {
-  "name": "Evy",
+  "name": "dejavu-library",
   "version": "1.0.0",
   "description": "",
   "main": "dist/index.cjs.js",
@@ -8,9 +8,11 @@
     "dist/components"
   ],
   "scripts": {
-    "build": "rimraf dist && node tools/build.js NODE_ENV=production",
-    "clean": "rimraf dist",
-    "guide": "start-storybook -p 9001 -c .storybook"
+    "dev": "webpack-dev-server --progress --config config/webpack.dev.config.js",
+    "guide": "start-storybook -p 9001 -c .storybook",
+    "build": "npm run clean && cross-env NODE_ENV=production node tools/build.js ",
+    "publish": "npm run clean && cross-env PUBLISH_PACK=true TAG=next node tools/build.js",
+    "clean": "node tools/clean.js"
   },
   "repository": {
     "type": "git",
@@ -29,8 +31,8 @@
     "react-dom": "^16.5.2"
   },
   "peerDependencies": {
-    "react": "^16.5.3",
-    "react-dom": "^16.5.3"
+    "react": "^16.5.1",
+    "react-dom": "^16.5.1"
   },
   "devDependencies": {
     "@storybook/addon-actions": "^3.4.7",
@@ -58,6 +60,7 @@
     "cross-env": "^5.2.0",
     "cssnano": "^4.1.0",
     "extract-text-webpack-plugin": "^3.0.2",
+    "html-webpack-plugin": "^3.2.0",
     "less": "^3.8.1",
     "less-loader": "^4.1.0",
     "polished": "^2.0.3",
@@ -68,6 +71,8 @@
     "precss": "^3.1.2",
     "prop-types": "^15.6.2",
     "react-docgen": "^2.21.0",
+    "react-router": "^4.3.1",
+    "react-router-dom": "^4.3.1",
     "rimraf": "^2.6.2",
     "rollup": "^0.66.0",
     "rollup-plugin-babel": "^3.0.1",
@@ -79,6 +84,9 @@
     "rollup-plugin-uglify": "^6.0.0",
     "rollup-plugin-url": "^1.4.0",
     "storybook-readme": "^3.3.0",
-    "webpack": "^3.4.1"
+    "webpack": "^4.8.3",
+    "webpack-cli": "^3.1.2",
+    "webpack-dev-server": "^3.1.10",
+    "webpack-merge": "^4.1.4"
   }
 }

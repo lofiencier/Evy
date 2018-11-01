@@ -15,7 +15,7 @@ const rollup = require('rollup');
 const babel = require('rollup-plugin-babel');
 const resolve = require('rollup-plugin-node-resolve');
 const commonjs = require('rollup-plugin-commonjs');
-const uglify = require('rollup-plugin-uglify');
+// const {uglify} = require('rollup-plugin-uglify');
 const postcss = require('rollup-plugin-postcss');
 const cssnano = require('cssnano');
 const precss = require('precss');
@@ -32,12 +32,12 @@ const pkg = require('../package.json');
 const cssExportMap = {};
 
 const isProd = process.env.NODE_ENV === 'production';
-
 // set flag to either publish on npm or create a tarball
-const shouldPublish = !!parseInt(process.env.PUBLISH_PACK);
+const shouldPublish = !!process.env.PUBLISH_PACK;
 // check if a version tag is provided
 const hasVersionTag = !!process.env.TAG;
 
+console.log(`shouldPublish:${shouldPublish},hasVersionTag:${hasVersionTag}`.green);
 // Define reusable constants
 const COMPONENTS = 'components';
 // Formats used to build modules
@@ -114,8 +114,8 @@ const getCommonConfig =path=> {
                     //     }
                     // ]
                 ]
-            }),
-            isProd && uglify()
+            })
+            // isProd && uglify()
         ]
     };
 }
@@ -314,7 +314,7 @@ async function packDistDir() {
     // Move tarball to root dir
     const tarName = `${pkg.name}-${pkg.version}.tgz`;
     log(`Saving tarball to ./${tarName}`);
-    return moveFile(`./dist/${tarName}`, tarName);
+    // return moveFile(`./dist/${tarName}`, tarName);
 }
 
 // Publish package to NPM only if PUBLISH_PACK env var is set to true
