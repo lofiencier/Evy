@@ -23,18 +23,20 @@ class Switch extends React.Component {
     }
     render() {
         const {active=false}=this.state;
-        return <div className={`switch-root ${this.props.size?this.props.size:'md'} ${this.props.className}`} style={this.props.style}>
-            <a href="javascript:void(0)" className={`switch-box ${active&&'active'}`} onClick={this.switchHandler.bind(this)}>
+        return <div className={cx('switch-root',{
+            [`${this.props.size}`]:!!this.props.size,
+            [`${this.props.className}`]:!!this.props.className
+        })} style={this.props.style}>
+            <a href="javascript:void(0)" className={cx('switch-box',{active:active})} onClick={this.switchHandler.bind(this)}>
                 <i></i>
             </a>
         </div>
     }
 }
 Switch.defaultProps = {
-    
+    size:'md'
 }
 Switch.propTypes = {
     onChange: PropTypes.func.isRequired,
-    size:PropTypes.arrayOf('sm','md','lg')
 }
 export default Switch

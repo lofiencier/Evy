@@ -12,7 +12,6 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 // const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 let webpackDevConfig = {
-    mode:'development',
     devtool: 'cheap-module-eval-source-map',
     entry: {
         app: path.resolve(__dirname, '../components/app.js')
@@ -30,7 +29,6 @@ let webpackDevConfig = {
         new webpack.HotModuleReplacementPlugin(),
         new HtmlWebpackPlugin({
             filename: 'index.html',
-            title: '万师傅平台',
             inject: true,
             hash: true,
             cache: true,

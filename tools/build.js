@@ -10,7 +10,6 @@ const {
 const {join, resolve: resolvePath} = require('path');
 const {spawn} = require('child_process');
 
-// Import rollup plugins
 const rollup = require('rollup');
 const babel = require('rollup-plugin-babel');
 const resolve = require('rollup-plugin-node-resolve');
@@ -26,24 +25,17 @@ const postcssImport = require('postcss-import');
 const globalImport = require('postcss-global-import');
 const url = require('rollup-plugin-url');
 const colors = require('colors');
-// Import package.json file for its configurations
 const pkg = require('../package.json');
 
 const cssExportMap = {};
 
 const isProd = process.env.NODE_ENV === 'production';
-// set flag to either publish on npm or create a tarball
 const shouldPublish = !!process.env.PUBLISH_PACK;
-// check if a version tag is provided
 const hasVersionTag = !!process.env.TAG;
 
-console.log(`shouldPublish:${shouldPublish},hasVersionTag:${hasVersionTag}`.green);
-// Define reusable constants
 const COMPONENTS = 'components';
-// Formats used to build modules
 
 const formats = ['cjs'];
-//postcss plugins
 const getPostPlugins = () => {
     let postcssPlugins = [
         postcssImport(),
@@ -68,11 +60,9 @@ const getPostPlugins = () => {
     return postcssPlugins
 }
 
-// Configuration shared across builds
 const getCommonConfig =path=> {
     let extract=!!path?{extract:`${path}.css`}:{};
     return {
-        // Make sure the 3rd party libs externals dependencies and prevent bundling them
         external: [
             ...Object.keys(pkg.devDependencies),
             ...Object.keys(pkg.dependencies),
@@ -124,7 +114,7 @@ const getCommonConfig =path=> {
 const log = message => console.log(`---- ${message} ----`);
 
 const isMatchFile = source => /index\.js$/.test(source);
-// Finds if given path is a directory
+
 const isDirectory = source => lstatSync(source).isDirectory();
 
 const loop = (path, files = []) => {
@@ -139,7 +129,6 @@ const loop = (path, files = []) => {
     return files
 }
 
-// Builds the filepath for the given file
 const getFileNameData = (file, format) => {
     const originalPath = file
         .replace(/components\\?\w+\\?/,'')
@@ -151,9 +140,7 @@ const getFileNameData = (file, format) => {
     return {filepath, name};
 };
 
-// Builds the Rollup configuration for a new file
 function createFileConfiguration(input, format, outputName, fileName) {
-    // console.log(`${input},${format},${outputName},${fileName}`.bgRed);
     let cssPath=!/(\.cjs|\.es)(\.js|\.jsx)$/.test(outputName)&&outputName.replace(/(\.js|.jsx)$/,'');
     return {
         inputOptions: {
@@ -168,7 +155,7 @@ function createFileConfiguration(input, format, outputName, fileName) {
                 'react-modal': 'ReactModal',
                 'react-dom': 'reactDom'
             },
-            sourcemap: true,
+            sourcemap: isProd,
             name: fileName || outputName,
             file: outputName,
             format
@@ -180,7 +167,6 @@ function createFileConfiguration(input, format, outputName, fileName) {
 function buildESMConfigurations() {
     const format = 'es';
     let files = loop(COMPONENTS).reduce((acc, file) => {
-        console.log('es',acc, file);
         const {filepath, name} = getFileNameData(file, format);
         const config = createFileConfiguration(file, format, filepath, name);
         return [
@@ -191,7 +177,6 @@ function buildESMConfigurations() {
     return files
 }
 
-// Copy a file to the dist/ dir
 function copyFile(source, target) {
     target = target || `dist/${source}`;
     const read = createReadStream(`./${source}`);
@@ -208,7 +193,6 @@ function copyFile(source, target) {
     });
 }
 
-// Create a simplified package.json for the package
 function createPackageFile() {
     const packageData = JSON.stringify({
         name: pkg.name,
@@ -231,7 +215,6 @@ function createPackageFile() {
     });
 }
 
-// Copy extra files to dist dir
 function createExtraFiles() {
     log('Generating extra files');
     const filePromises = ['README.md'].map(f => copyFile(f));
@@ -279,14 +262,7 @@ function runNPMProcess(script, ...args) {
     });
 }
 
-// Change a file's path
-function moveFile(oldPath, newPath) {
-    return new Promise((resolve, reject) => {
-        rename(oldPath, newPath, err => (err
-            ? reject(err)
-            : resolve()));
-    });
-}
+
 
 // Run tests
 async function runTests() {
@@ -371,7 +347,7 @@ async function build() {
             // package dist dir in tarball (npm pack)
             await packDistDir();
         }
-        log('✅ Done!');
+        log(' ✅ Done! ');
     } catch (err) {
         log('Finished with errors: ');
         console.error(err);
