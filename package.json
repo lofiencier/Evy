@@ -1,5 +1,5 @@
 {
-  "name": "dejavu-library",
+  "name": "wsf-library",
   "version": "1.0.0",
   "description": "",
   "main": "dist/index.cjs.js",
@@ -14,17 +14,10 @@
     "publish": "npm run clean && cross-env PUBLISH_PACK=true TAG=next node tools/build.js",
     "clean": "node tools/clean.js"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/lofiencier/Evy.git"
-  },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/lofiencier/Evy/issues"
-  },
-  "homepage": "https://github.com/lofiencier/Evy#readme",
+  "homepage": "http://git.wanshifu.com/web/components#readme",
   "dependencies": {
     "classnames": "^2.2.6",
     "react": "^16.5.2",

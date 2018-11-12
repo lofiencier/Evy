@@ -21,6 +21,7 @@ class Region extends Component{
 }
 
 Region.defaultProps = {
+    
 }
 Region.propTypes = {
 }

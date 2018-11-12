@@ -5,7 +5,7 @@ import Switch from './index'
 import readme from "./readme.md"
 import { action, configureActions } from '@storybook/addon-actions';
 
-const name='Switch'
+const name='Region'
 
 const component = () => (<Switch size={text("size")} onChange={action('this.changeHandler')}/>)
 export { readme,component,name }
