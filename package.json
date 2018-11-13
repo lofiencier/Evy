@@ -15,7 +15,7 @@
     "clean": "node tools/clean.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "ENVY",
   "license": "ISC",
   "homepage": "http://git.wanshifu.com/web/components#readme",
   "dependencies": {

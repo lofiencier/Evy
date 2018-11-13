@@ -33,10 +33,15 @@ class Switch extends React.Component {
         </div>
     }
 }
-Switch.defaultProps = {
-    size:'md'
-}
+// Switch.defaultProps = {
+//     size:'md'
+// }
 Switch.propTypes = {
+    /** 下拉的值列表 */
+    size: PropTypes.oneOf(['sm','md','lg']).isRequired,
+    /** 下拉的回调(value)*/ 
     onChange: PropTypes.func.isRequired,
+    /** 当前选中的值 */
+    value:PropTypes.string.isRequired,
 }
 export default Switch

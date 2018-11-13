@@ -1,8 +1,9 @@
 import React,{Component} from 'react'
 import PropTypes from 'prop-types'
-import className from 'classnames'
+import className from 'classnames/bind'
 import styles from './index.less'
 const cx = className.bind(styles);
+console.log(styles);
 class Select extends Component{
     constructor(props){
         super(props);
@@ -59,8 +60,8 @@ class Select extends Component{
         const {show,focus,blur,curIndex,data} =this.state;
         return <div className={cx('wsf-select')} onFocus={this.focusHandler.bind(this)}>
             <ul className={cx('select-ul',{active:show,focus:focus})}>
-            <li className='select-li'><a className='select-head' href="javascript:void(0)" onClick={this.toggle.bind(this)}>{data[curIndex]||'default'}</a></li>
-            <li><a href="javascript:void(0)" className='select-holder'>placeholder</a></li>
+            <li className={cx('select-li')}><a className={cx('select-head')} href="javascript:void(0)" onClick={this.toggle.bind(this)}>{data[curIndex]||'default'}</a></li>
+            <li><a href="javascript:void(0)" className={cx('select-holder')}>placeholder</a></li>
             {
                 this.state.data.map((v,i)=><li key={i}><a className={cx('select-a')} href="javascript:void(0)" onClick={this.onChange.bind(this,i)}>{v}</a></li>)
             }
@@ -76,6 +77,9 @@ Select.defaultProps = {
     show:true
 }
 Select.propTypes = {
-
+    /** 下拉列表的每一项 */
+    data: PropTypes.array.isRequired,
+    value: PropTypes.string.isRequired,
+    onChange: PropTypes.func.isRequired,
 }
 export default Select

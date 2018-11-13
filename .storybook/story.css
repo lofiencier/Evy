@@ -5,7 +5,16 @@
     font-style: normal;
   }
   
-  
+  a{
+    color:#333;
+    text-decoration: none;
+}
+ul{
+    padding:0;
+    list-style: none;
+    margin:0;
+}
+
   * {
     position: relative;
     -webkit-box-sizing: border-box;
