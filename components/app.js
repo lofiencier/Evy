@@ -3,6 +3,8 @@ import {render} from 'react-dom';
 import {Route, BrowserRouter as Router,Link, Switch} from "react-router-dom"
 import '../config/app.less'
 import SwitchCpt from './Form/Switch'
+import reactRouterToArray from 'react-router-to-array';
+
 
 class App extends Component{
     constructor(props){
@@ -72,6 +74,7 @@ class App extends Component{
     </Router>
     }
 }
+
 
 class AppN extends PureComponent {
     render() {
