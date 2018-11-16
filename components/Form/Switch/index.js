@@ -37,11 +37,11 @@ class Switch extends React.Component {
 //     size:'md'
 // }
 Switch.propTypes = {
-    /** 下拉的值列表 */
+    /** 组件的大小选择 */
     size: PropTypes.oneOf(['sm','md','lg']).isRequired,
-    /** 下拉的回调(value)*/ 
+    /** 组件点击事件的回调( true||false )*/ 
     onChange: PropTypes.func.isRequired,
-    /** 当前选中的值 */
+    /** 组件的开启状态 */
     value:PropTypes.string.isRequired,
 }
 export default Switch
